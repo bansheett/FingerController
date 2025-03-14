@@ -1,52 +1,62 @@
-# Finger Control
+# 🖐️ FingerController - Controllo del Mouse con la Mano 🖱️
 
-**Finger Control** è un progetto Python che utilizza le librerie **OpenCV**, **MediaPipe** e **PyAutoGUI** per rilevare il gesto di allargare l'indice e il pollice tramite la webcam e simulare la pressione della barra spaziatrice. Questo permette di controllare giochi come Geometry Dash eseguendo un semplice gesto manuale.
+FingerController è un sistema che permette di **controllare il mouse tramite gesture della mano**, utilizzando **OpenCV, MediaPipe e PyAutoGUI**.  
+Il progetto sfrutta la **computer vision** per rilevare i movimenti delle dita e trasformarli in azioni sullo schermo, come spostare il cursore o simulare un clic.
 
----
-
-## Indice
-
-- [Introduzione](#introduzione)
-- [Requisiti](#requisiti)
-- [Installazione](#installazione)
-- [Configurazione dell'Ambiente di Sviluppo](#configurazione-dellambiente-di-sviluppo)
-- [Utilizzo](#utilizzo)
-- [Spiegazione del Codice](#spiegazione-del-codice)
-- [Troubleshooting](#troubleshooting)
-- [Contributi](#contributi)
-- [Licenza](#licenza)
+## 🚀 Funzionalità
+- **Controllo del mouse** in tempo reale tramite movimenti della mano.
+- **Rilevamento delle mani** con **MediaPipe**.
+- **Simulazione di click e movimenti del mouse** con **PyAutoGUI**.
+- **Interfaccia fluida e reattiva**, con ottimizzazione del riconoscimento delle gesture.
 
 ---
 
-## Introduzione
-
-Il progetto **Finger Control** consente di utilizzare il gesto di allargare indice e pollice per dare input al gioco Geometry Dash. Quando il gesto viene riconosciuto, il programma simula la pressione della barra spaziatrice, facendo saltare il personaggio nel gioco.
-
----
-
-## Requisiti
-
-- **Python:** Versione 3.7 - 3.10 (consigliato)  
-  *Nota: MediaPipe attualmente non supporta Python 3.13 o versioni successive.*
-- **Librerie Python:**  
-  - [OpenCV](https://pypi.org/project/opencv-python/)  
-  - [MediaPipe](https://pypi.org/project/mediapipe/)  
-  - [PyAutoGUI](https://pypi.org/project/PyAutoGUI/)
+## 🛠️ **Tecnologie Utilizzate**
+- **Python 3.x**
+- **OpenCV** (Computer Vision)
+- **MediaPipe** (Rilevamento delle mani)
+- **PyAutoGUI** (Controllo del mouse)
 
 ---
 
-## Installazione
+## 📦 **Installazione**
+Segui questi passaggi per installare e avviare il progetto:
 
-### 1. Creazione dell'Ambiente Virtuale
+1. **Clonare il repository**  
+   ```bash
+   git clone https://github.com/bansheett/FingerController.git
+   cd FingerController
+   ```
+2. **Installare le dipendenze**
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. **Eseguire lo script**
+   ```bash
+   python finger_controller.py
+   ```
 
-È consigliato utilizzare un ambiente virtuale per isolare le dipendenze. Esempio su Windows:
+## 🎮 **Come Funziona**
+- Muovere il cursore: Muovi la mano davanti alla webcam.
+- Click sinistro: Tocca con il pollice e l'indice.
+- Click destro: Tocca con il pollice e il medio.
+- Scroll: Muovi la mano su e giù con le dita estese.
+- Uscire: Chiudi la mano in un pugno.
 
+## 📖 **Struttura del Codice**
 ```bash
-py -3.10 -m venv finger_control_env
-finger_control_env\Scripts\activate
+FingerController/
+│── finger_controller.py   # Script principale
+│── utils.py               # Funzioni di supporto
+│── requirements.txt       # Dipendenze del progetto
+│── README.md              # Documentazione
+│── demo.gif               # (Opzionale) GIF dimostrativa
 ```
 
-rust
-Copia
+## 🛠 **Possibili Miglioramenti**
+- Implementare il supporto per gesture personalizzate.
+- Aggiungere una GUI per personalizzare le impostazioni.
+- Ottimizzare il tracciamento per un minore consumo di CPU.
 
-Salva questo contenut
+## 📜 **Licenza**
+Questo progetto è distribuito sotto licenza MIT, quindi puoi modificarlo e utilizzarlo liberamente.
