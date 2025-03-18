@@ -23,7 +23,7 @@ cap.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
 
 # Imposta il threshold per il gesto e il delay minimo tra un salto e l'altro
-threshold = 70         # Soglia in pixel per il gesto
+threshold = 50         # Soglia in pixel per il gesto
 gesture_delay = 0.1    # 100 millisecondi di delay minimo
 last_gesture_time = 0
 
