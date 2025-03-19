@@ -21,7 +21,7 @@ cap = cv2.VideoCapture(0)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
 
-threshold = 50  # Soglia in pixel per il gesto
+threshold = 30  # Soglia in pixel per il gesto
 jumping = False  # Stato per controllare se il tasto 'space' è già premuto
 
 while True:
