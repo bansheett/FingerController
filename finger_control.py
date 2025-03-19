@@ -2,7 +2,6 @@ import cv2
 import mediapipe as mp
 import pyautogui
 import math
-import time
 import concurrent.futures
 
 # Inizializza MediaPipe Hands con tracking migliorato
@@ -14,7 +13,7 @@ hands = mpHands.Hands(
 )
 mpDraw = mp.solutions.drawing_utils
 
-# Crea un ThreadPoolExecutor per gestire le chiamate a pyautogui.press in modo asincrono
+# Crea un ThreadPoolExecutor per gestire le chiamate a pyautogui.keyDown/keyUp in modo asincrono
 executor = concurrent.futures.ThreadPoolExecutor(max_workers=2)
 
 # Apri la webcam e imposta una risoluzione più bassa per migliorare le prestazioni
@@ -22,10 +21,8 @@ cap = cv2.VideoCapture(0)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
 
-# Imposta il threshold per il gesto e il delay minimo tra un salto e l'altro
-threshold = 50         # Soglia in pixel per il gesto
-gesture_delay = 0.1    # 100 millisecondi di delay minimo
-last_gesture_time = 0
+threshold = 50  # Soglia in pixel per il gesto
+jumping = False  # Stato per controllare se il tasto 'space' è già premuto
 
 while True:
     success, img = cap.read()
@@ -40,7 +37,6 @@ while True:
         for handLms in results.multi_hand_landmarks:
             lmList = []
             h, w, _ = img.shape
-            # Estrai i landmark della mano
             for id, lm in enumerate(handLms.landmark):
                 cx, cy = int(lm.x * w), int(lm.y * h)
                 lmList.append((id, cx, cy))
@@ -52,26 +48,28 @@ while True:
             if thumb_tip and index_tip:
                 x1, y1 = thumb_tip[1], thumb_tip[2]
                 x2, y2 = index_tip[1], index_tip[2]
-                # Calcola la distanza euclidea tra i due punti
                 distance = math.hypot(x2 - x1, y2 - y1)
 
-                # Disegna la linea e visualizza la distanza
+                # Disegna la linea tra le dita e visualizza la distanza
                 cv2.line(img, (x1, y1), (x2, y2), (255, 0, 0), 2)
                 cv2.putText(img, f'{int(distance)}', (x1, y1 - 10),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0, 0), 2)
 
-                # Se la distanza supera il threshold e se è passato il delay minimo, esegui il salto
-                current_time = time.time()
-                if distance > threshold and (current_time - last_gesture_time > gesture_delay):
-                    executor.submit(pyautogui.press, 'space')
-                    last_gesture_time = current_time
-                    cv2.putText(img, 'Jump!', (50, 50),
+                # Se la distanza supera il threshold, attiva il salto continuo
+                if distance > threshold:
+                    if not jumping:
+                        jumping = True
+                        executor.submit(pyautogui.keyDown, 'space')
+                    cv2.putText(img, 'Jumping!', (50, 50),
                                 cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
+                else:
+                    if jumping:
+                        jumping = False
+                        executor.submit(pyautogui.keyUp, 'space')
 
             # Disegna i landmark e le connessioni sulla mano
             mpDraw.draw_landmarks(img, handLms, mpHands.HAND_CONNECTIONS)
 
-    # Visualizza il feed video
     cv2.imshow("Finger Control", img)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
